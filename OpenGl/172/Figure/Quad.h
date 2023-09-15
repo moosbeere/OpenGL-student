@@ -19,15 +19,19 @@ public:
 	void setPos(int _x, int _y);
 	void setColorRed();
 	void setColorGreen();
+	void rotateForward();
+	void rotateBackward();
 
 private:
 	float x;
 	float y;
+	float z;
 	float size;
-	float angle;
+	float angleX, angleY, angleZ;
 
 	float speedX;
 	float speedY;
+	float speedZ;
 	float rotateSpeed;
 
 };
