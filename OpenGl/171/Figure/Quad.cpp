@@ -12,6 +12,7 @@ Quad::Quad()
 	speedX = rand() % 10;
 	speedY = rand() % 10;
 	rotateSpeed = rand() % 10;
+	loadTexture();
 }
 
 Quad::~Quad()
@@ -58,51 +59,51 @@ void Quad::Render()
 	//front
 	glBegin(GL_QUADS);
 	glColor3f(0.1f, 0.2f, 0.3f);
-	glVertex3f(-size, size, -size);
-	glVertex3f(size, size, -size);
-	glVertex3f(size, -size, -size);
-	glVertex3f(-size, -size, -size);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, size, -size);
+	glTexCoord2f(0.0f, 1.0f);  glVertex3f(size, size, -size);
+	glTexCoord2f(1.0f, 1.0f);  glVertex3f(size, -size, -size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size, -size);
 
 	//left
 	glColor3f(0.4f, 0.5f, 0.6f);
-	glVertex3f(-size, -size, -size);
-	glVertex3f(-size, size, -size);
-	glVertex3f(-size, size, size);
-	glVertex3f(-size, -size, size);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size, -size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, size, -size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, size, size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size, size);
 
 
 	//back	
 	glColor3f(0.7f, 0.8f, 0.9f);
-	glVertex3f(-size, -size, size);
-	glVertex3f(-size, size, size);
-	glVertex3f(size, size, size);
-	glVertex3f(size, -size, size);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size, size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size, size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(size, -size, size);
 	
 	//right
 	
 	glColor3f(0.1f, 0.8f, 0.9f);
-	glVertex3f(size, -size, size);
-	glVertex3f(size, size, size);
-	glVertex3f(size, size, -size);
-	glVertex3f(size, -size, -size);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(size, -size, size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(size, size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size, -size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(size, -size, -size);
 
 
 	//button
 	
 	glColor3f(0.1f, 0.5f, 0.6f);
-	glVertex3f(size, -size, -size);
-	glVertex3f(-size, -size, -size);
-	glVertex3f(-size, -size, size);
-	glVertex3f(size, -size, size);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(size, -size, -size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, -size, -size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, -size, size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(size, -size, size);
 
 
 	//top
 	
 	glColor3f(0.5f, 0.3f, 0.6f);
-	glVertex3f(-size, size, -size);
-	glVertex3f(-size, size, size);
-	glVertex3f(size, size, size);
-	glVertex3f(size, size, -size);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, size, -size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size, size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(size, size, -size);
 	glEnd();
 
 	glRotatef(-angleZ, 0, 0, 1);//возвращаем объект обратно
@@ -170,6 +171,19 @@ void Quad::rotateForward()
 void Quad::rotateBackward()
 {
 	angleZ -= 10;
+}
+
+void Quad::loadTexture()
+{
+	AUX_RGBImageRec* tex;
+	tex = auxDIBImageLoadA("text.bmp");
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3,
+		tex->sizeX, tex->sizeY, 0, GL_RGB, 
+		GL_UNSIGNED_BYTE, tex->data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
 
 
