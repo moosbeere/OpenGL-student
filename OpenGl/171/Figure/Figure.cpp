@@ -9,9 +9,12 @@
 Quad* quad;
 
 void Init() {
-    glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_MODELVIEW);
+    glClearDepth(1.0f);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
     glLoadIdentity();
-    glOrtho(0, 600, 600, 0, -5, 5);
+    glOrtho(-200, 200, -200, 200, -50, 50);
     quad = new Quad();
 }
 
@@ -22,8 +25,8 @@ void Update(int) {
 }
 
 void Render() {
-    glClearColor(0.3f, 0.6f, 0.7f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     quad->Render();
     //glFlush();
     glutSwapBuffers();
@@ -46,6 +49,8 @@ void SpecialKeyboard(int key, int x, int y)
     case GLUT_KEY_UP: quad->moveUp(); break;
     case GLUT_KEY_LEFT: quad->moveLeft(); break;
     case GLUT_KEY_RIGHT: quad->moveRight(); break;
+    case GLUT_KEY_PAGE_DOWN: quad->rotateBackward(); break;
+    case GLUT_KEY_PAGE_UP: quad->rotateForward(); break;
     }
 }
 
