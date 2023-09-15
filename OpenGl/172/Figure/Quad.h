@@ -3,6 +3,10 @@
 #include <time.h>
 #include <GL/glut.h>
 
+#include <GL/GLAux.h>
+#pragma comment(lib, "Glaux.lib")
+#pragma comment (lib, "legacy_stdio_definitions.lib")
+
 class Quad
 {
 public:
@@ -21,6 +25,7 @@ public:
 	void setColorGreen();
 	void rotateForward();
 	void rotateBackward();
+	void loadTexture();
 
 private:
 	float x;
@@ -34,5 +39,6 @@ private:
 	float speedZ;
 	float rotateSpeed;
 
+	unsigned int texture;
 };
 

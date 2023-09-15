@@ -2,16 +2,19 @@
 
 Quad::Quad()
 {
+	loadTexture();
+	glEnable(GL_TEXTURE_2D);
 	x = 0;
 	y = 0;
 	z = 0;
 	size = 20;
 	angleX = 0; angleY = 0; angleZ = 0;
-	srand(time(0));
+	/*srand(time(0));
 	speedX = rand() % 10;
 	speedY = rand() % 10;
 	speedZ = rand() % 10;
-	rotateSpeed = rand() % 10;
+	rotateSpeed = rand() % 10;*/
+	
 }
 
 Quad::~Quad()
@@ -25,50 +28,53 @@ void Quad::Render()
 	glRotatef(angleX, 1, 0, 0);
 	glRotatef(angleY, 0, 1, 0);
 	glRotatef(angleZ, 0, 0, 1);
-	glBegin(GL_QUADS);
 
 	//front
-	glColor3f(0.5f, 0.3f, 0.8f);
-	glVertex3f(-size, -size, -size);
-	glVertex3f(-size, size, -size);
-	glVertex3f(size, size, -size);
-	glVertex3f(size, -size, -size);
-
-	//right
-	glColor3f(0.4f, 0.3f, 0.4f);
-	glVertex3f(size, -size, -size);
-	glVertex3f(size, size, -size);
-	glVertex3f(size, size, size);
-	glVertex3f(size, -size, size);
+	glBegin(GL_QUADS);
+	glColor3f(0.4f, 0.5f, 0.7f);
+	//glTexCoord2d сопоставляет координаты текстуры вершинам четырехугольника. Нижний левый угол текстуры имеет координаты (0,0), а верхний правый - (1,1).
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size, -size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(size, -size, -size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size, -size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, size, -size);
+	//glEnd();
 
 	//back
-	glColor3f(0.4f, 0.3f, 0.4f);
-	glVertex3f(size, -size, size);
-	glVertex3f(-size, -size, size);
-	glVertex3f(-size, size, size);
-	glVertex3f(size, size, size);
-
-	//top
-	glColor3f(0.6f, 0.8f, 0.4f);
-	glVertex3f(size, size, size);
-	glVertex3f(size, size, -size);
-	glVertex3f(-size, size, -size);
-	glVertex3f(-size, size, size);
+	glColor3f(0.3f, 0.0f, 0.7f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size, size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(size, -size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size, size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, size, size);
 
 	//left
-	glColor3f(0.6f, 0.3f, 0.4f);
-	glVertex3f(-size, size, size);
-	glVertex3f(-size, size, -size);
-	glVertex3f(-size, -size, -size);
-	glVertex3f(-size, -size, size);
+	glColor3f(0.2f, 0.1f, 0.7f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, size, -size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, -size, size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size, -size);
 
-	//bottom
-	glColor3f(0.4f, 0.3f, 0.7f);
-	glVertex3f(-size, -size, size);
-	glVertex3f(size, -size, size);
-	glVertex3f(size, -size, -size);
-	glVertex3f(-size, -size, -size);
+	//right
+	glColor3f(0.1f, 0.2f, 0.7f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(size, size, -size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(size, size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, -size, size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(size, -size, -size);
+
+	//top
+	glColor3f(0.0f, 0.3f, 0.7f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, size, size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(size, size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size, -size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, size, -size);
+
+	//button
+	glColor3f(0.4f, 0.4f, 0.7f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size, size);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(size, -size, size);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(size, -size, -size);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size, -size);
 	glEnd();
+
 
 	glRotatef(-angleZ, 0, 0, 1);
 	glRotatef(-angleY, 0, 1, 0);
@@ -150,4 +156,15 @@ void Quad::rotateForward()
 void Quad::rotateBackward()
 {
 	angleZ -= 10;
+}
+
+void Quad::loadTexture()
+{
+	AUX_RGBImageRec* tex;
+	tex = auxDIBImageLoadA("tex1.bmp");
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, tex->sizeX,tex->sizeY, 0, 	GL_RGB, GL_UNSIGNED_BYTE, tex->data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }

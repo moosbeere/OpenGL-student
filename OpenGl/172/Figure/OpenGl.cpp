@@ -6,12 +6,16 @@
 #include "Quad.h"
 
 Quad* quad;
+bool bAmbient = false;
+bool bDiffuse = false;
 
 void Init() {
     glMatrixMode(GL_MODELVIEW);
     glClearDepth(1.0f);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT1);
     glLoadIdentity();
     glOrtho(-200, 200, -200, 200, -50, 50);
     quad = new Quad();
@@ -21,6 +25,25 @@ void Update(int) {
     glutPostRedisplay();
     //quad->Update();
     glutTimerFunc(30, Update, 0);
+
+    GLfloat lightAmbient[] = {0,0,0,1};
+    GLfloat lightDiffuse[] = { 0,0,0,1 };
+    GLfloat lightPosition[] = { 60.0f,60.0f,30.0f};
+
+    if (bAmbient){
+        lightAmbient[0] = 1;
+        lightAmbient[1] = 1;
+        lightAmbient[2] = 1;
+    }
+    if (bDiffuse) {
+        lightDiffuse[0] = 1;
+        lightDiffuse[1] = 1;
+        lightDiffuse[2] = 1;
+    }
+
+    glLightfv(GL_LIGHT1, GL_AMBIENT, lightAmbient);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightDiffuse);
+    glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
 }
 
 void Render() {
@@ -48,6 +71,8 @@ void SpecialKeyboard(int key, int x, int y) {
     case GLUT_KEY_RIGHT: quad->moveRight(); break;
     case GLUT_KEY_PAGE_DOWN: quad->rotateBackward(); break;
     case GLUT_KEY_PAGE_UP: quad->rotateForward(); break;
+    case GLUT_KEY_F1: bAmbient = !bAmbient; break;
+    case GLUT_KEY_F2: bDiffuse = !bDiffuse; break;
     }
 }
 
