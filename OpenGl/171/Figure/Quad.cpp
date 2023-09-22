@@ -13,6 +13,7 @@ Quad::Quad()
 	speedY = rand() % 10;
 	rotateSpeed = rand() % 10;
 	loadTexture();
+	glEnable(GL_TEXTURE_2D);
 }
 
 Quad::~Quad()
